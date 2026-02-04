@@ -31,14 +31,14 @@ print_header() {
     echo ""
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║${NC}                                                                            ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA}██╗   ██╗██████╗ ██████╗  █████╗ ████████╗███████╗                        ${NC}   ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA}██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝                        ${NC}   ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA}██║   ██║██████╔╝██║  ██║███████║   ██║   █████╗                          ${NC}   ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA}██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██╔══╝                          ${NC}   ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA}╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗                        ${NC}   ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}   ${MAGENTA} ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝                        ${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}█████╗ ██╗   ██╗████████╗ ██████╗       ███████╗██╗  ██╗██╗██╗     ██╗     ███████╗${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗     ██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}███████║██║   ██║   ██║   ██║   ██║     ███████╗█████╔╝ ██║██║     ██║     ███████╗${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}██╔══██║██║   ██║   ██║   ██║   ██║     ╚════██║██╔═██╗ ██║██║     ██║     ╚════██║${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}██║  ██║╚██████╔╝   ██║   ╚██████╔╝     ███████║██║  ██╗██║███████╗███████╗███████║${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}   ${MAGENTA}╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝      ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝${NC}   ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                            ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                ${GREEN}🔄 Actualizador de Claude Code Auto-Skills${NC}                 ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                   ${GREEN}🔄  Sistema de Actualización Automática${NC}                ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                            ${CYAN}║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -132,27 +132,26 @@ get_new_version() {
     install_path=$(get_install_path)
 
     if [ -f "$install_path/install.sh" ]; then
-        grep '^VERSION=' "$install_path/install.sh" | head -1 | cut -d'"' -f2
+        # Look for VERSION= line (with or without readonly)
+        grep 'VERSION=' "$install_path/install.sh" | head -1 | cut -d'"' -f2
     else
         echo "unknown"
     fi
 }
 
-list_new_skills() {
+count_skills() {
     local install_path
     install_path=$(get_install_path)
 
-    local new_skills=()
-
-    for skill in "$install_path/skills"/*.md; do
-        if [ -f "$skill" ]; then
-            local skill_name
-            skill_name=$(basename "$skill")
-            new_skills+=("$skill_name")
-        fi
-    done
-
-    echo "${new_skills[@]}"
+    local count=0
+    if [ -d "$install_path/skills" ]; then
+        for skill in "$install_path/skills"/*.md; do
+            if [ -f "$skill" ]; then
+                ((count++))
+            fi
+        done
+    fi
+    echo "$count"
 }
 
 update_claude_config() {
@@ -171,14 +170,15 @@ update_claude_config() {
     local new_version
     new_version=$(get_new_version)
 
-    cat > "$CONFIG_FILE" << 'CONFIGEOF'
+    # Write config with variable expansion
+    cat > "$CONFIG_FILE" <<ENDCONFIG
 # Claude Code Auto-Skills Configuration
 INSTALL_DATE="$(date +%Y-%m-%d)"
 INSTALL_PATH="$install_path"
 VERSION="$new_version"
 MODE="direct-overwrite"
 UPDATE_DATE="$(date +%Y-%m-%d %H:%M:%S)"
-CONFIGEOF
+ENDCONFIG
 
     log_info "Configuración actualizada"
 }
@@ -196,14 +196,9 @@ show_changelog() {
     echo -e "   ${BLUE}Versión actual:${NC}   ${GREEN}$new_version${NC}"
     echo ""
 
-    # Show new/updated skills
-    local install_path
-    install_path=$(get_install_path)
-
-    local skill_count=0
-    for skill in "$install_path/skills"/*.md; do
-        [ -f "$skill" ] && ((skill_count++))
-    done
+    # Show skill count
+    local skill_count
+    skill_count=$(count_skills)
 
     echo -e "   ${GREEN}✓${NC} Total de skills disponibles: ${YELLOW}$skill_count${NC}"
     echo ""
@@ -230,33 +225,35 @@ print_success_footer() {
     local api=()
     local tools=()
 
-    for skill in "$install_path/skills"/*.md; do
-        if [ -f "$skill" ]; then
-            local skill_name
-            skill_name=$(basename "$skill" .md)
+    if [ -d "$install_path/skills" ]; then
+        for skill in "$install_path/skills"/*.md; do
+            if [ -f "$skill" ]; then
+                local skill_name
+                skill_name=$(basename "$skill" .md)
 
-            case "$skill_name" in
-                php-symfony|laravel|arquitectura-hexagonal|solid|clean-code)
-                    backend+=("$skill_name")
-                    ;;
-                react|typescript|twig|volt)
-                    frontend+=("$skill_name")
-                    ;;
-                playwright|pom|cucumber)
-                    testing+=("$skill_name")
-                    ;;
-                phpstan|swagger)
-                    quality+=("$skill_name")
-                    ;;
-                openai)
-                    api+=("$skill_name")
-                    ;;
-                python|bash-scripts)
-                    tools+=("$skill_name")
-                    ;;
-            esac
-        fi
-    done
+                case "$skill_name" in
+                    php-symfony|laravel|arquitectura-hexagonal|solid|clean-code)
+                        backend+=("$skill_name")
+                        ;;
+                    react|typescript|twig|volt)
+                        frontend+=("$skill_name")
+                        ;;
+                    playwright|pom|cucumber)
+                        testing+=("$skill_name")
+                        ;;
+                    phpstan|swagger)
+                        quality+=("$skill_name")
+                        ;;
+                    openai)
+                        api+=("$skill_name")
+                        ;;
+                    python|bash-scripts)
+                        tools+=("$skill_name")
+                        ;;
+                esac
+            fi
+        done
+    fi
 
     # Display categorized
     if [ ${#backend[@]} -gt 0 ]; then
