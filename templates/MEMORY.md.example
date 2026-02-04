@@ -1,0 +1,97 @@
+# Skills Configurados - [Nombre del Proyecto]
+
+Auto-generado por Claude Code el 2026-02-04
+
+## Skills Activos
+- php-symfony.md
+- typescript.md
+
+## Skills Disponibles (no cargados)
+- python.md
+- playwright.md
+- bash-scripts.md
+- openai.md
+
+## Notas del Proyecto
+
+### Contexto
+Sistema de gestión de pedidos para e-commerce B2B.
+
+### Stack Técnico
+- **Backend**: Symfony 7.2 + PHP 8.3
+- **Frontend Admin**: React + TypeScript
+- **Base de datos**: PostgreSQL 16
+- **Cache**: Redis 7
+- **Queue**: RabbitMQ
+- **Storage**: AWS S3
+
+### Arquitectura
+Arquitectura hexagonal con separación clara de capas:
+- Domain: Lógica de negocio pura
+- Application: Use cases y DTOs
+- Infrastructure: Adaptadores (HTTP, Doctrine, CLI)
+
+### Comandos Útiles
+
+```bash
+# Development
+make dev                    # Start dev environment
+make test                   # Run all tests
+make phpstan                # Static analysis
+
+# Database
+make db-reset               # Reset database with fixtures
+make db-migrate             # Run migrations
+
+# Deployment
+make deploy-staging         # Deploy to staging
+make deploy-prod            # Deploy to production (requires confirmation)
+
+# Quality
+make cs-fix                 # Fix code style (PHP-CS-Fixer)
+make coverage               # Generate coverage report
+```
+
+### Decisiones de Arquitectura
+
+**Por qué Hexagonal**:
+- Facilita testing sin infraestructura
+- Permite cambiar implementaciones sin tocar domain
+- Clara separación de responsabilidades
+
+**Doctrine con Custom Types**:
+- Todos los Value Objects son Doctrine custom types
+- Ejemplo: `Email`, `OrderId`, `Money`
+
+**Event-Driven para integraciones**:
+- Domain events para notificaciones
+- Async processing con Messenger + RabbitMQ
+
+### Convenciones del Proyecto
+
+**Entities**:
+- Siempre inmutables después de creación
+- Factory methods estáticos: `User::create()`
+- No getters innecesarios, solo los que expongan data necesaria
+
+**Tests**:
+- Unit tests en `tests/Unit/Domain/`
+- Integration tests en `tests/Integration/`
+- E2E con Behat en `features/`
+
+**Git Flow**:
+- `main` → producción
+- `develop` → staging
+- Feature branches: `feature/TICKET-123-descripcion`
+
+### Equipo
+- Tech Lead: José Guillermo Moreu
+- 3 Backend developers
+- 2 Frontend developers
+- 1 QA
+
+---
+💡 Para modificar skills: "carga [skill]" o "remueve [skill]"
+
+*Auto-gestionado por Claude Code*
+*Última actualización: 2026-02-04 14:30*
