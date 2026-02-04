@@ -101,11 +101,33 @@ src/
 
 Los siguientes skills están disponibles en `~/.claude/skills/`:
 
-- **python.md** - Guía PHP → Python con equivalencias y patterns
-- **php-symfony.md** - Arquitectura hexagonal, Doctrine, testing
-- **typescript.md** - Types, generics, convenciones
-- **playwright.md** - POM, fixtures, best practices E2E
+### Backend & Arquitectura
+- **php-symfony.md** - Symfony framework, Doctrine ORM, testing
+- **laravel.md** - Laravel framework, Eloquent ORM, Blade
+- **arquitectura-hexagonal.md** - Ports & Adapters, DDD patterns
+- **solid.md** - SOLID principles con ejemplos PHP/Python
+- **clean-code.md** - Clean Code practices y refactoring
+
+### Frontend & Templates
+- **react.md** - React hooks, TypeScript, modern patterns
+- **typescript.md** - Types, generics, strict mode
+- **twig.md** - Twig templating (Symfony)
+- **volt.md** - Volt templating (Phalcon/Symfony)
+
+### Testing
+- **playwright.md** - Playwright E2E testing basics
+- **pom.md** - Page Object Model pattern (deep dive)
+- **cucumber.md** - BDD con Gherkin y Playwright
+
+### Quality & Documentation
+- **phpstan.md** - Static analysis level 9
+- **swagger.md** - OpenAPI/Swagger documentation
+
+### API & Integration
 - **openai.md** - OpenAI API patterns con Python
+
+### Languages & Tools
+- **python.md** - Guía PHP → Python con equivalencias
 - **bash-scripts.md** - Scripts robustos con logging y error handling
 
 ---
@@ -131,18 +153,38 @@ fi
 
 **a) Detecta automáticamente**:
 ```bash
-composer.json          → php-symfony.md
-pyproject.toml         → python.md
-playwright.config.ts   → playwright.md
-tsconfig.json          → typescript.md
-package.json           → (verificar si usa TypeScript)
-*.sh en root           → bash-scripts.md
-requirements.txt       → python.md
+# Backend Frameworks
+composer.json + symfony/ → php-symfony.md, arquitectura-hexagonal.md, twig.md
+composer.json + laravel/ → laravel.md
+pyproject.toml           → python.md
+requirements.txt         → python.md
+
+# Frontend
+package.json + tsconfig.json → typescript.md
+package.json + react        → react.md
+tsconfig.json               → typescript.md
+
+# Testing
+playwright.config.ts → playwright.md, pom.md
+package.json + @cucumber/cucumber → cucumber.md
+
+# Templates
+artisan (Laravel)    → laravel.md (Blade)
+symfony + twig/      → twig.md
+phalcon/             → volt.md
+
+# Tools & Scripts
+*.sh en root         → bash-scripts.md
+phpstan.neon         → phpstan.md
 ```
 
 **Verificación adicional**:
 - Si `pyproject.toml` contiene `openai` → añadir `openai.md`
-- Si `package.json` contiene `@playwright/test` → añadir `playwright.md`
+- Si `package.json` contiene `@playwright/test` → añadir `playwright.md`, `pom.md`
+- Si `package.json` contiene `@cucumber/cucumber` → añadir `cucumber.md`
+- Si `composer.json` contiene `nelmio/api-doc-bundle` → añadir `swagger.md`
+- Si `phpstan.neon` existe → añadir `phpstan.md`
+- Si proyecto usa React → sugerir `solid.md`, `clean-code.md`
 
 **b) Pregunta al usuario**:
 ```
