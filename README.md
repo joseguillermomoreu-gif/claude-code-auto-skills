@@ -43,6 +43,61 @@ ls ~/.claude/CLAUDE.md
 # Debería existir
 ```
 
+### 🔄 Actualización
+
+Si ya tienes instalado claude-code-auto-skills y quieres actualizar a la última versión:
+
+```bash
+# Opción 1: Script de actualización automática (recomendado)
+cd /ruta/donde/clonaste/claude-code-auto-skills
+bash update.sh
+
+# Opción 2: Actualización manual
+git pull origin master
+bash install.sh
+```
+
+**¿Qué hace update.sh?**
+- ✅ Auto-detecta tu versión actual instalada
+- ✅ Descarga última versión del repositorio (git pull)
+- ✅ Crea backup de seguridad antes de actualizar
+- ✅ Actualiza CLAUDE.md y configuración
+- ✅ Muestra changelog con nuevos skills añadidos
+- ✅ Lista completa de skills disponibles al finalizar
+
+**Ejemplo de salida:**
+
+```
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    🔄 Actualizador de Claude Code Auto-Skills              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+   Versión instalada: v1.0.0
+
+→ Verificando instalación existente...
+✓ Instalación encontrada
+
+→ Actualizando desde repositorio...
+✓ Repositorio actualizado
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                           📋 RESUMEN DE CAMBIOS                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+   Versión anterior: v1.0.0
+   Versión actual:   v1.1.0
+
+   ✓ Total de skills disponibles: 17
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Actualización Completada
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   ✨ Gracias por usar Claude Code Auto-Skills ✨
+
+   Desarrollado con 💙 por José Guillermo Moreu
+```
+
 ---
 
 ## 🎯 Cómo Funciona
@@ -95,123 +150,80 @@ Puedes añadir o remover skills dinámicamente:
 
 ---
 
-## 📚 Skills Incluidos
+## 📚 Skills Incluidos (17 total)
 
-### Backend
+### Backend & Arquitectura (5 skills)
 
 #### **php-symfony.md**
-Arquitectura hexagonal, Doctrine, testing, Domain-driven Design.
+Symfony framework, Doctrine ORM, arquitectura hexagonal, testing.
 
-**Ideal para**:
-- Proyectos Symfony 7.x+
-- Arquitectura hexagonal (Ports & Adapters)
-- Domain-driven Design
-- PHPUnit + Behat
+#### **laravel.md**
+Laravel framework, Eloquent ORM, Blade templating, Artisan.
 
-**Contenido**:
-- Estructura de capas (Domain/Application/Infrastructure)
-- Entities y Value Objects
-- Repository pattern
-- Testing estratégico
-- Convenciones Symfony
+#### **arquitectura-hexagonal.md**
+Ports & Adapters pattern, Domain-Driven Design, clean architecture.
 
----
+#### **solid.md**
+SOLID principles con ejemplos prácticos en PHP y Python.
 
-#### **python.md**
-Guía para developers PHP aprendiendo Python.
-
-**Ideal para**:
-- Developers PHP/Symfony migrando a Python
-- Proyectos Python 3.12+
-- Poetry para gestión de dependencias
-
-**Contenido**:
-- Tabla de equivalencias PHP ↔ Python
-- Type hints (similar a PHP 8)
-- Pytest (vs PHPUnit)
-- Estructuras de proyecto
-- PEP 8 conventions
+#### **clean-code.md**
+Clean Code practices, refactoring, naming conventions, best practices.
 
 ---
 
-### Frontend
+### Frontend & Templates (4 skills)
+
+#### **react.md**
+React con Hooks, TypeScript, performance optimization, modern patterns.
 
 #### **typescript.md**
-Convenciones, types, generics, patterns.
+Types, generics, utility types, strict mode, advanced patterns.
 
-**Ideal para**:
-- Proyectos TypeScript 5.x+
-- React, Vue, Angular
-- Type safety estricto
+#### **twig.md**
+Twig templating engine para Symfony, filters, macros, extensions.
 
-**Contenido**:
-- Types vs Interfaces
-- Utility Types (Partial, Pick, Omit, Record)
-- Generics avanzados
-- Type Guards
-- Discriminated Unions
-- Configuración tsconfig.json
+#### **volt.md**
+Volt templating para Phalcon/Symfony, sintaxis y configuración.
 
 ---
 
-### Testing
+### Testing (3 skills)
 
 #### **playwright.md**
-Page Object Model estricto, fixtures, best practices E2E.
+Playwright E2E testing, configuración, fixtures, debugging.
 
-**Ideal para**:
-- Testing E2E con Playwright
-- Proyectos TypeScript
-- Arquitectura POM
+#### **pom.md**
+Page Object Model pattern (deep dive), locator strategies, wait patterns.
 
-**Contenido**:
-- Page Object Model (POM) estricto
-- Fixtures reutilizables
-- Selectores best practices
-- Assertions comunes
-- Debugging strategies
-- Configuración playwright.config.ts
+#### **cucumber.md**
+BDD con Gherkin, Cucumber.js + Playwright, step definitions, hooks.
 
 ---
 
-### AI/ML
+### Quality & Documentation (2 skills)
+
+#### **phpstan.md**
+Static analysis con PHPStan levels 0-9, baseline management, CI/CD integration.
+
+#### **swagger.md**
+OpenAPI/Swagger documentation, Symfony NelmioApiDocBundle, PHP 8 attributes.
+
+---
+
+### API & Integration (1 skill)
 
 #### **openai.md**
-Patrones para OpenAI API con Python.
-
-**Ideal para**:
-- Integración OpenAI API
-- Proyectos Python con LLMs
-- Chatbots, embeddings, function calling
-
-**Contenido**:
-- Chat completions
-- Streaming responses
-- Embeddings y búsqueda semántica
-- Function calling (tool use)
-- Error handling robusto
-- Rate limiting
-- Conversation history
+OpenAI API patterns con Python, streaming, embeddings, function calling.
 
 ---
 
-### DevOps
+### Languages & Tools (2 skills)
+
+#### **python.md**
+Python para developers PHP, equivalencias, type hints, pytest, poetry.
 
 #### **bash-scripts.md**
-Scripts robustos con logging y error handling.
-
-**Ideal para**:
-- Scripts de deploy
-- Automatización
-- CI/CD pipelines
-
-**Contenido**:
-- Template estándar con strict mode
-- Logging con colores
-- Error handling y retry logic
-- Parsing de argumentos
-- Cleanup automático
-- Best practices
+Bash scripting robusto, logging, error handling, deployment automation.
 
 ---
 
@@ -344,15 +356,19 @@ Lee [CONTRIBUTING.md](docs/CONTRIBUTING.md) para más detalles.
 
 ## 🗺️ Roadmap
 
-- [x] Skills base (PHP, Python, TypeScript, Playwright, Bash, OpenAI)
-- [x] Sistema de auto-detección
-- [x] Auto-configuración con MEMORY.md
+- [x] Skills base (PHP, Python, TypeScript, Playwright, Bash, OpenAI) - v1.0.0
+- [x] Sistema de auto-detección - v1.0.0
+- [x] Auto-configuración con MEMORY.md - v1.0.0
+- [x] Skills adicionales: Laravel, React, PHPStan, Swagger - v1.1.0
+- [x] Skills de arquitectura: Hexagonal, SOLID, Clean Code - v1.1.0
+- [x] Skills de testing: POM, Cucumber - v1.1.0
+- [x] Skills de templates: Twig, Volt - v1.1.0
+- [x] Script de actualización automática (update.sh) - v1.2.0
 - [ ] Skills adicionales: Go, Rust, Java, C#
-- [ ] Skills de frameworks: Laravel, Django, NestJS, Spring
+- [ ] Skills de frameworks: Django, NestJS, Spring
 - [ ] Skills de infraestructura: Docker, Kubernetes, Terraform
 - [ ] Web UI para gestionar skills
 - [ ] Marketplace de skills comunitarios
-- [ ] Integración con GitHub Actions
 
 ---
 
@@ -389,9 +405,10 @@ Depende de qué skills cargues. Ejemplo:
 
 ## 📊 Estadísticas del Proyecto
 
-- **6 skills base** cubriendo los stacks más comunes
-- **15KB** de configuración inteligente
+- **17 skills especializados** cubriendo backend, frontend, testing, quality y tools
+- **Auto-actualización** con Context7 MCP para documentación siempre actualizada
 - **100% auto-configurable** después del primer uso
+- **Script de actualización** incluido (update.sh)
 - **MIT License** - Úsalo libremente
 
 ---
