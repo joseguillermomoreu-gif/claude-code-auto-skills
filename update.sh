@@ -98,33 +98,53 @@ update_repo() {
 
     if git pull origin "$current_branch"; then
         log_info "Repositorio actualizado exitosamente"
+
+        # Si modo COPY, copiar CLAUDE.md actualizado
+        if [ "${INSTALL_MODE:-}" = "copy" ]; then
+            log_step "Actualizando CLAUDE.md (modo COPY)..."
+            cp "$SKILLS_REPO_PATH/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+            log_info "CLAUDE.md actualizado en ~/.claude/"
+        fi
     else
         log_error "Error al actualizar el repositorio"
         exit 1
     fi
 }
 
-verify_symlinks() {
-    log_step "Verificando symlinks..."
+verify_installation() {
+    log_step "Verificando instalación..."
 
     local errors=0
 
-    if [ ! -L "$CLAUDE_DIR/CLAUDE.md" ]; then
-        log_error "CLAUDE.md symlink no encontrado"
-        ((errors++))
-    fi
-
-    if [ ! -L "$CLAUDE_DIR/skills" ]; then
-        log_error "skills/ symlink no encontrado"
-        ((errors++))
+    # Verificar según modo de instalación
+    if [ "${INSTALL_MODE:-symlink}" = "copy" ]; then
+        # Modo COPY: CLAUDE.md es archivo, resto symlinks
+        if [ ! -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+            log_error "CLAUDE.md no encontrado"
+            ((errors++))
+        fi
+        if [ ! -L "$CLAUDE_DIR/skills" ]; then
+            log_error "skills/ symlink no encontrado"
+            ((errors++))
+        fi
+        log_info "Instalación OK (modo COPY)"
+    else
+        # Modo SYMLINK: todo symlinks
+        if [ ! -L "$CLAUDE_DIR/CLAUDE.md" ]; then
+            log_error "CLAUDE.md symlink no encontrado"
+            ((errors++))
+        fi
+        if [ ! -L "$CLAUDE_DIR/skills" ]; then
+            log_error "skills/ symlink no encontrado"
+            ((errors++))
+        fi
+        log_info "Instalación OK (modo SYMLINK)"
     fi
 
     if [ "$errors" -gt 0 ]; then
-        log_error "Symlinks rotos, considera reinstalar: ./install.sh"
+        log_error "Archivos rotos, considera reinstalar: ./install.sh"
         exit 1
     fi
-
-    log_info "Symlinks OK"
 }
 
 show_changes() {
@@ -168,7 +188,7 @@ main() {
     echo ""
 
     check_installation
-    verify_symlinks
+    verify_installation
     update_repo
     show_changes
     print_success

@@ -100,6 +100,36 @@ check_dependencies() {
     log_info "Dependencias OK"
 }
 
+choose_install_mode() {
+    log_step "Modo de instalación"
+
+    echo ""
+    echo -e "${BLUE}🔧 ¿Qué modo de instalación prefieres?${NC}"
+    echo ""
+    echo -e "   ${GREEN}1. COPY${NC} (Recomendado)"
+    echo -e "      • CLAUDE.md copiado a ~/.claude/ (archivo real)"
+    echo -e "      • Skills como symlinks (editables y comiteables)"
+    echo -e "      ${CYAN}→ Claude Code lee el CLAUDE.md automáticamente${NC}"
+    echo ""
+    echo -e "   ${YELLOW}2. SYMLINK${NC} (Desarrollo)"
+    echo -e "      • Todo son symlinks al repo"
+    echo -e "      • Para desarrollo del framework"
+    echo ""
+    read -p "   Modo (1/2): " mode_choice
+
+    case $mode_choice in
+        2)
+            INSTALL_MODE="symlink"
+            log_info "Modo seleccionado: ${YELLOW}SYMLINK${NC}"
+            ;;
+        *)
+            INSTALL_MODE="copy"
+            log_info "Modo seleccionado: ${GREEN}COPY${NC}"
+            ;;
+    esac
+    echo ""
+}
+
 get_install_path() {
     log_step "Configuración de instalación"
 
@@ -258,8 +288,8 @@ cleanup_symlinks() {
     log_info "Limpieza completada"
 }
 
-create_symlinks() {
-    log_step "Creando symlinks..."
+install_files() {
+    log_step "Instalando archivos..."
 
     mkdir -p "$CLAUDE_DIR"
 
@@ -268,15 +298,27 @@ create_symlinks() {
     [ -d "$CLAUDE_DIR/skills" ] && [ ! -L "$CLAUDE_DIR/skills" ] && rm -rf "$CLAUDE_DIR/skills"
     [ -d "$CLAUDE_DIR/templates" ] && [ ! -L "$CLAUDE_DIR/templates" ] && rm -rf "$CLAUDE_DIR/templates"
 
-    # Create symlinks
-    ln -sf "$INSTALL_PATH/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
-    ln -sf "$INSTALL_PATH/skills" "$CLAUDE_DIR/skills"
-    ln -sf "$INSTALL_PATH/templates" "$CLAUDE_DIR/templates"
+    if [ "$INSTALL_MODE" = "copy" ]; then
+        # Modo COPY: CLAUDE.md copiado, resto symlinks
+        cp "$INSTALL_PATH/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+        ln -sf "$INSTALL_PATH/skills" "$CLAUDE_DIR/skills"
+        ln -sf "$INSTALL_PATH/templates" "$CLAUDE_DIR/templates"
 
-    log_info "Symlinks creados:"
-    echo -e "   ${CYAN}~/.claude/CLAUDE.md${NC} → ${YELLOW}$INSTALL_PATH/CLAUDE.md${NC}"
-    echo -e "   ${CYAN}~/.claude/skills${NC} → ${YELLOW}$INSTALL_PATH/skills${NC}"
-    echo -e "   ${CYAN}~/.claude/templates${NC} → ${YELLOW}$INSTALL_PATH/templates${NC}"
+        log_info "Archivos instalados (modo COPY):"
+        echo -e "   ${GREEN}~/.claude/CLAUDE.md${NC} ← ${YELLOW}$INSTALL_PATH/CLAUDE.md${NC} (copiado)"
+        echo -e "   ${CYAN}~/.claude/skills${NC} → ${YELLOW}$INSTALL_PATH/skills${NC} (symlink)"
+        echo -e "   ${CYAN}~/.claude/templates${NC} → ${YELLOW}$INSTALL_PATH/templates${NC} (symlink)"
+    else
+        # Modo SYMLINK: Todo symlinks
+        ln -sf "$INSTALL_PATH/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+        ln -sf "$INSTALL_PATH/skills" "$CLAUDE_DIR/skills"
+        ln -sf "$INSTALL_PATH/templates" "$CLAUDE_DIR/templates"
+
+        log_info "Symlinks creados (modo SYMLINK):"
+        echo -e "   ${CYAN}~/.claude/CLAUDE.md${NC} → ${YELLOW}$INSTALL_PATH/CLAUDE.md${NC}"
+        echo -e "   ${CYAN}~/.claude/skills${NC} → ${YELLOW}$INSTALL_PATH/skills${NC}"
+        echo -e "   ${CYAN}~/.claude/templates${NC} → ${YELLOW}$INSTALL_PATH/templates${NC}"
+    fi
 }
 
 save_config() {
@@ -288,6 +330,7 @@ save_config() {
 SKILLS_REPO_PATH="$INSTALL_PATH"
 SKILLS_VERSION="1.0.0"
 INSTALL_DATE="$(date +%Y-%m-%d)"
+INSTALL_MODE="$INSTALL_MODE"
 EOF
 
     log_info "Configuración guardada en: ${YELLOW}$CONFIG_FILE${NC}"
@@ -394,11 +437,12 @@ main() {
 
     check_dependencies
     check_existing_installation
+    choose_install_mode
     get_install_path
     backup_existing_files
     clone_or_use_existing_repo
     cleanup_symlinks
-    create_symlinks
+    install_files
     save_config
     verify_installation
 
