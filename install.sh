@@ -30,26 +30,31 @@ log_step() { echo -e "\n${CYAN}→${NC} $*"; }
 print_header() {
     clear
     echo ""
-    echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${MAGENTA}                AUTO-SKILLS INSTALLER${NC}"
-    echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-    echo -e ""
-    echo -e "  ${GREEN}🧠  Sistema Inteligente para Claude Code${NC}"
-    echo -e "  ${BLUE}📦  17 Skills Especializados${NC}"
+    echo -e "${BOLD}${CYAN}╔═══════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BOLD}${CYAN}║                                                                   ║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}     █████╗ ██╗   ██╗████████╗ ██████╗                  ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}    ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗                 ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}    ███████║██║   ██║   ██║   ██║   ██║                 ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}    ██╔══██║██║   ██║   ██║   ██║   ██║                 ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}    ██║  ██║╚██████╔╝   ██║   ╚██████╔╝                 ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}    ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝                  ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║                                                                   ║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}███████╗██╗  ██╗██╗██╗     ██╗     ███████╗            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}███████╗█████╔╝ ██║██║     ██║     ███████╗            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}╚════██║██╔═██╗ ██║██║     ██║     ╚════██║            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}███████║██║  ██╗██║███████╗███████╗███████║            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║${NC}    ${BOLD}${MAGENTA}╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝            ${NC}${BOLD}${CYAN}║${NC}"
+    echo -e "${BOLD}${CYAN}║                                                                   ║${NC}"
+    echo -e "${BOLD}${CYAN}╚═══════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
-    echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-    echo -e ""
-    echo -e "  ${YELLOW}✨ Features:${NC}"
-    echo -e "     ${GREEN}•${NC} Auto-detección de stack tecnológico"
-    echo -e "     ${GREEN}•${NC} Carga automática por proyecto"
-    echo -e "     ${GREEN}•${NC} Context7 para actualizaciones"
+    echo -e "  ${GREEN}🧠  Sistema Inteligente de Skills para Claude Code${NC}"
+    echo -e "  ${BLUE}📦  18 Skills Especializados | Auto-Detección | Context7${NC}"
     echo ""
-    echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
-    echo -e ""
-    echo -e "  ${BLUE}👨‍💻 Autor:${NC}   ${GREEN}José Guillermo Moreu${NC} ${YELLOW}(@joseguillermomoreu-gif)${NC}"
-    echo -e "  ${BLUE}🔗 Repo:${NC}   ${YELLOW}github.com/joseguillermomoreu-gif/claude-code-auto-skills${NC}"
-    echo ""
-    echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${BOLD}${CYAN}───────────────────────────────────────────────────────────────────${NC}"
+    echo -e "  ${BOLD}${YELLOW}Autor:${NC}  José Guillermo Moreu ${CYAN}(@jgmoreu)${NC}"
+    echo -e "  ${BOLD}${YELLOW}Repo:${NC}   ${CYAN}github.com/joseguillermomoreu-gif/claude-code-auto-skills${NC}"
+    echo -e "${BOLD}${CYAN}───────────────────────────────────────────────────────────────────${NC}"
     echo ""
 }
 
@@ -139,13 +144,9 @@ verify_installation() {
     [ ! -L "$CLAUDE_DIR/skills" ] && log_error "skills/ missing" && ((errors++))
     [ ! -f "$CONFIG_FILE" ] && log_error "config missing" && ((errors++))
 
-    # Count skills (excluding README.md)
-    local skill_count=0
-    for skill in "$SCRIPT_DIR/skills"/*.md; do
-        if [ -f "$skill" ] && [[ "$(basename "$skill")" != "README.md" ]]; then
-            ((skill_count++))
-        fi
-    done
+    # Count skills using find (more reliable)
+    local skill_count
+    skill_count=$(find "$SCRIPT_DIR/skills" -maxdepth 1 -name "*.md" ! -name "README.md" -type f 2>/dev/null | wc -l)
 
     if [ "$errors" -gt 0 ]; then
         log_error "Instalación incompleta"
@@ -162,13 +163,15 @@ print_success() {
     echo -e "${BOLD}${GREEN}═══════════════════════════════════════════════════════════════════${NC}"
     echo ""
 
-    echo -e "${BOLD}${BLUE}📚 Skills instalados (17):${NC}"
+    echo -e "${BOLD}${BLUE}📚 Skills instalados (18):${NC}"
     echo ""
 
     for skill in "$SCRIPT_DIR/skills"/*.md; do
-        if [ -f "$skill" ] && [[ "$(basename "$skill")" != "README.md" ]]; then
-            echo -e "   ${GREEN}✓${NC} $(basename "$skill" .md)"
-        fi
+        [ ! -f "$skill" ] && continue
+        local skill_name
+        skill_name=$(basename "$skill")
+        [ "$skill_name" = "README.md" ] && continue
+        echo -e "   ${GREEN}✓${NC} ${skill_name%.md}"
     done
 
     echo ""
