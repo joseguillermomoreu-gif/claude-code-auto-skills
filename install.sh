@@ -49,7 +49,7 @@ print_header() {
     echo -e "${BOLD}${CYAN}╚═══════════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "  ${GREEN}🧠  Sistema Inteligente de Skills para Claude Code${NC}"
-    echo -e "  ${BLUE}📦  18 Skills Especializados | Auto-Detección | Context7${NC}"
+    echo -e "  ${BLUE}📦  20 Skills Especializados | Auto-Detección | Context7${NC}"
     echo ""
     echo -e "${BOLD}${CYAN}───────────────────────────────────────────────────────────────────${NC}"
     echo -e "  ${BOLD}${YELLOW}Autor:${NC}  José Guillermo Moreu ${CYAN}(@jgmoreu)${NC}"
@@ -163,7 +163,7 @@ print_success() {
     echo -e "${BOLD}${GREEN}═══════════════════════════════════════════════════════════════════${NC}"
     echo ""
 
-    echo -e "${BOLD}${BLUE}📚 Skills instalados (18):${NC}"
+    echo -e "${BOLD}${BLUE}📚 Skills instalados (20):${NC}"
     echo ""
 
     for skill in "$SCRIPT_DIR/skills"/*.md; do
