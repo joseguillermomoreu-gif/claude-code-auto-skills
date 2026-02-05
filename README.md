@@ -25,7 +25,7 @@
 
 ```bash
 # Opción 1: Script de instalación automática (recomendado)
-curl -sSL https://raw.githubusercontent.com/joseguillermomoreu-gif/claude-code-auto-skills/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/joseguillermomoreu-gif/claude-code-auto-skills/master/install.sh | bash
 
 # Opción 2: Instalación manual
 git clone https://github.com/joseguillermomoreu-gif/claude-code-auto-skills.git
@@ -150,7 +150,7 @@ Puedes añadir o remover skills dinámicamente:
 
 ---
 
-## 📚 Skills Incluidos (17 total)
+## 📚 Skills Incluidos (20 total)
 
 ### Backend & Arquitectura (5 skills)
 
@@ -210,10 +210,23 @@ OpenAPI/Swagger documentation, Symfony NelmioApiDocBundle, PHP 8 attributes.
 
 ---
 
-### API & Integration (1 skill)
+### API & LLMs (2 skills)
 
 #### **openai.md**
 OpenAI API patterns con Python, streaming, embeddings, function calling.
+
+#### **llms.md**
+Large Language Models, prompt engineering, integración, costos, testing, proveedores.
+
+---
+
+### CI/CD (2 skills)
+
+#### **github-actions.md**
+GitHub Actions workflows, matrix builds, caché, secrets, reusable workflows, best practices.
+
+#### **gitlab-ci.md**
+GitLab CI/CD pipelines, stages, jobs, artifacts, cache, templates, deployment.
 
 ---
 
@@ -405,7 +418,7 @@ Depende de qué skills cargues. Ejemplo:
 
 ## 📊 Estadísticas del Proyecto
 
-- **17 skills especializados** cubriendo backend, frontend, testing, quality y tools
+- **20 skills especializados** cubriendo backend, frontend, testing, quality, CI/CD y tools
 - **Auto-actualización** con Context7 MCP para documentación siempre actualizada
 - **100% auto-configurable** después del primer uso
 - **Script de actualización** incluido (update.sh)

@@ -1,5 +1,113 @@
 # Perfil de Desarrollo - jgmoreu
 
+---
+
+## 🚨 INSTRUCCIÓN CRÍTICA - EJECUTAR SIEMPRE EN CADA SESIÓN
+
+**IMPORTANTE**: Al iniciar una sesión en CUALQUIER proyecto, DEBES ejecutar esta verificación:
+
+### Verificación Automática de Skills
+
+```bash
+# 1. Verificar si existe MEMORY.md en el directorio actual
+if [ -f "$(pwd)/MEMORY.md" ]; then
+  # ✅ MEMORY.md existe → Cargar skills automáticamente
+  # Lee la sección "Skills Activos" y carga esos skills silenciosamente
+  # Notifica brevemente: "📚 Skills cargados: php-symfony, typescript"
+else
+  # ❌ MEMORY.md NO existe → Ejecutar auto-detección
+  # DEBES hacer esto PROACTIVAMENTE (no esperar que el usuario lo pida)
+fi
+```
+
+### Proceso de Auto-Detección (cuando NO hay MEMORY.md)
+
+**Paso 1: DETECTAR** automáticamente el stack del proyecto:
+
+```bash
+# Backend Frameworks
+- composer.json + symfony/ → php-symfony.md, arquitectura-hexagonal.md, twig.md
+- composer.json + laravel/ → laravel.md
+- pyproject.toml o requirements.txt → python.md
+
+# Frontend
+- package.json + tsconfig.json → typescript.md
+- package.json + react → react.md
+
+# Testing
+- playwright.config.ts → playwright.md, pom.md
+- package.json + @cucumber/cucumber → cucumber.md
+
+# Tools
+- *.sh en root → bash-scripts.md
+- phpstan.neon → phpstan.md
+```
+
+**Paso 2: PREGUNTAR** al usuario qué skills cargar:
+
+```
+🔍 Analizando proyecto...
+
+📂 Detectado:
+✓ playwright.config.ts (Playwright E2E)
+✓ package.json + tsconfig.json (TypeScript)
+
+📚 Skills disponibles:
+1. playwright.md - Testing E2E con Playwright
+2. pom.md - Page Object Model pattern
+3. typescript.md - TypeScript patterns
+4. cucumber.md - BDD testing (si aplica)
+
+¿Cuáles quieres cargar? (números separados por coma, 'todos', o 'ninguno'):
+```
+
+**Paso 3: CREAR** MEMORY.md automáticamente:
+
+```markdown
+# Skills Configurados - [Nombre del Proyecto]
+
+Auto-generado por Claude Code el YYYY-MM-DD
+
+## Skills Activos
+- playwright.md
+- pom.md
+- typescript.md
+
+## Skills Disponibles (no cargados)
+- python.md
+- php-symfony.md
+- bash-scripts.md
+
+## Notas del Proyecto
+[Usuario puede añadir notas aquí]
+
+---
+💡 Para modificar: "carga [skill]" o "remueve [skill]"
+```
+
+**Paso 4: CARGAR** los skills seleccionados y notificar:
+
+```
+✅ Skills cargados: playwright, pom, typescript
+💾 MEMORY.md creado
+
+Listo para trabajar en tu proyecto con el contexto adecuado.
+```
+
+---
+
+**⚠️ REGLAS IMPORTANTES:**
+
+1. **SER PROACTIVO**: NO esperes que el usuario te pida la detección. Si no hay MEMORY.md, hazlo automáticamente en tu primer mensaje.
+
+2. **SER BREVE**: Si MEMORY.md existe, solo di: "📚 Skills cargados: [lista]" y continúa.
+
+3. **NO PREGUNTAR** si ya hay MEMORY.md. Solo carga los skills listados.
+
+4. **SIEMPRE VERIFICAR** al inicio de cada sesión nueva en un proyecto.
+
+---
+
 ## Stack Tecnológico
 
 ### Backend (Expertise Principal)
@@ -132,24 +240,25 @@ Los siguientes skills están disponibles en `~/.claude/skills/`:
 
 ---
 
-## 🚀 Sistema de Auto-Carga de Skills (Opción D)
+## 🚀 Sistema de Auto-Carga de Skills
 
 ### Para Claude Code:
 
-#### Primera Interacción en Proyecto Nuevo
+#### En CADA Sesión de Trabajo
 
-Cuando trabajes en un proyecto por primera vez:
+**SIEMPRE al iniciar una sesión en un proyecto:**
 
-**1. Verifica si existe MEMORY.md**:
+**1. Verificar si existe MEMORY.md** en el directorio actual:
+
 ```bash
 if [ -f "$(pwd)/MEMORY.md" ]; then
-  # Cargar skills listados automáticamente
+  # ✅ Existe → Cargar skills automáticamente (ver paso 3)
 else
-  # Proceso de auto-configuración
+  # ❌ No existe → Auto-detección (ver paso 2)
 fi
 ```
 
-**2. Si NO existe MEMORY.md**:
+**2. Si NO existe MEMORY.md** (ejecutar PROACTIVAMENTE):
 
 **a) Detecta automáticamente**:
 ```bash
@@ -239,18 +348,20 @@ Auto-generado por Claude Code el YYYY-MM-DD
 📝 Configuración guardada en MEMORY.md
 ```
 
-**3. Si SÍ existe MEMORY.md**:
+**3. Si SÍ existe MEMORY.md** (comportamiento silencioso):
 
-**a) Lee la sección "Skills Activos"** silenciosamente
+**a) Lee la sección "Skills Activos"** del MEMORY.md
 
-**b) Carga automáticamente** sin preguntar
+**b) Carga automáticamente** esos skills SIN preguntar al usuario
 
-**c) Notifica brevemente** (1 línea):
+**c) Notifica BREVEMENTE** en 1 línea:
 ```
-📚 Skills cargados: php-symfony, typescript
+📚 Skills cargados: playwright, pom, typescript
 ```
 
-**d) Continúa trabajando** con el contexto cargado
+**d) Continúa trabajando** inmediatamente con el contexto cargado
+
+**⚠️ NO preguntes** si quiere cargar los skills. Si están en MEMORY.md, cárgalos automáticamente.
 
 #### Durante la Sesión
 
