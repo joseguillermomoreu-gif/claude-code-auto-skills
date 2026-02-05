@@ -19,6 +19,18 @@
 
 ---
 
+## 📋 Requisitos
+
+### Imprescindible
+- **Claude Code CLI** instalado ([Instalación oficial](https://claude.ai/code))
+
+### Recomendado (pero no obligatorio)
+- **Context7 MCP** configurado en Claude Code
+  - Permite actualización automática de skills con documentación oficial actualizada
+  - Sin Context7, los skills funcionarán perfectamente con la documentación incluida en la versión instalada (actualizada a la fecha de publicación)
+
+---
+
 ## 🚀 Quick Start
 
 ### Instalación
@@ -369,6 +381,9 @@ Lee [CONTRIBUTING.md](docs/CONTRIBUTING.md) para más detalles.
 
 ## 🗺️ Roadmap
 
+Este proyecto está en **continua evolución** hasta lograr automatizar y optimizar el desarrollo como debe ser. Las contribuciones y sugerencias son muy valoradas y agradecidas.
+
+### Completado
 - [x] Skills base (PHP, Python, TypeScript, Playwright, Bash, OpenAI) - v1.0.0
 - [x] Sistema de auto-detección - v1.0.0
 - [x] Auto-configuración con MEMORY.md - v1.0.0
@@ -377,11 +392,16 @@ Lee [CONTRIBUTING.md](docs/CONTRIBUTING.md) para más detalles.
 - [x] Skills de testing: POM, Cucumber - v1.1.0
 - [x] Skills de templates: Twig, Volt - v1.1.0
 - [x] Script de actualización automática (update.sh) - v1.2.0
+- [x] Skills LLMs y CI/CD: GitHub Actions, GitLab CI - v1.2.3
+
+### En el horizonte
 - [ ] Skills adicionales: Go, Rust, Java, C#
 - [ ] Skills de frameworks: Django, NestJS, Spring
 - [ ] Skills de infraestructura: Docker, Kubernetes, Terraform
 - [ ] Web UI para gestionar skills
 - [ ] Marketplace de skills comunitarios
+
+**💡 ¿Tienes una idea?** Abre un [issue](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues) o contribuye con un PR. ¡Toda aportación suma!
 
 ---
 
@@ -397,7 +417,7 @@ Sí, puedes elegir qué cargar en cada proyecto. Solo pagarás tokens por los sk
 
 ### ¿Los skills se actualizan automáticamente?
 
-Claude Code detecta cuando hay información desactualizada y pregunta si quieres actualizar, usando Context7 para obtener la última documentación.
+Si tienes Context7 MCP configurado, Claude Code puede actualizar los skills con la documentación oficial más reciente. Sin Context7, los skills incluyen documentación actualizada a la fecha de la versión instalada.
 
 ### ¿Puedo modificar los skills?
 
