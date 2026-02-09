@@ -112,6 +112,20 @@ bash install.sh
 
 ---
 
+## 🤝 Contributing
+
+¿Quieres contribuir con nuevos skills, mejoras o bug fixes?
+
+👉 **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guía completa para contributors
+👉 **[docs/WORKFLOW.md](docs/WORKFLOW.md)** - Workflow de desarrollo (Gitflow, TDD, CI/CD)
+
+**Quick links:**
+- [Issues abiertos](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues)
+- [Nuevos skills pendientes](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+skill%22)
+- [Testing guide](tests/README.md)
+
+---
+
 ## 🎯 Cómo Funciona
 
 ### Primera vez en un proyecto
