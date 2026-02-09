@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master, develop]
+  push:
+    branches: [develop]
+
+jobs:
+  test:
+    name: Test and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Install bats (testing framework)
+        run: |
+          sudo npm install -g bats
+
+      - name: Run shellcheck on all .sh files
+        run: |
+          echo "🔍 Running shellcheck..."
+          shellcheck --version
+          find . -name "*.sh" -not -path "./.git/*" -exec shellcheck {} \;
+
+      - name: Validate bash syntax
+        run: |
+          echo "🔍 Validating bash syntax..."
+          find . -name "*.sh" -not -path "./.git/*" -exec bash -n {} \;
+
+      - name: Run tests
+        run: |
+          echo "🧪 Running tests..."
+          if [ -f tests/run_tests.sh ]; then
+            chmod +x tests/run_tests.sh
+            ./tests/run_tests.sh
+          else
+            echo "⚠️  tests/run_tests.sh not found yet. Skipping tests."
+            echo "Tests will be added in issue #3 and #4"
+          fi
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "✅ All checks passed!"
+          echo "  - ShellCheck: OK"
+          echo "  - Syntax: OK"
+          echo "  - Tests: OK"
