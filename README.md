@@ -1,5 +1,18 @@
 # 🧠 Claude Code Auto-Skills
 
+> **⚠️ PROYECTO ARCHIVADO - POC EXITOSA**
+>
+> Este proyecto fue una **Proof of Concept exitosa** que funcionó perfectamente y demostró el concepto de skills auto-cargables para Claude Code.
+>
+> **Estado**: Archivado (2026-02-12)
+> **Razón**: El proyecto evolucionó hacia un enfoque más simple y poderoso basado en descubrimientos sobre los internals de Claude Code.
+> **Código**: 100% funcional, documentado y testeado.
+> **Instalación**: Disponible pero sin mantenimiento activo.
+>
+> 📚 **Este proyecto sirvió como base de aprendizaje y exploración**. Todos los commits, tests y documentación se mantienen como referencia.
+
+---
+
 > Sistema inteligente de skills auto-cargables para Claude Code que detecta tu stack tecnológico y carga automáticamente el contexto relevante.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -109,20 +122,6 @@ bash install.sh
 
    Desarrollado con 💙 por José Guillermo Moreu
 ```
-
----
-
-## 🤝 Contributing
-
-¿Quieres contribuir con nuevos skills, mejoras o bug fixes?
-
-👉 **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guía completa para contributors
-👉 **[docs/WORKFLOW.md](docs/WORKFLOW.md)** - Workflow de desarrollo (Gitflow, TDD, CI/CD)
-
-**Quick links:**
-- [Issues abiertos](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues)
-- [Nuevos skills pendientes](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+skill%22)
-- [Testing guide](tests/README.md)
 
 ---
 
@@ -366,38 +365,22 @@ vim ~/.claude/CLAUDE.md
 
 3. Añádelo a la detección automática en `CLAUDE.md`
 
-Ver [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) para guía completa.
-
 ---
 
 ## 📖 Documentación
 
-- [Guía de Contribución](docs/CONTRIBUTING.md) - Cómo contribuir al proyecto
-- [Personalización](docs/CUSTOMIZATION.md) - Cómo personalizar skills
-- [Arquitectura](docs/ARCHITECTURE.md) - Cómo funciona el sistema
+- [Workflow de Desarrollo](docs/WORKFLOW.md) - Gitflow, TDD, CI/CD
+- [Framework de Testing](tests/README.md) - Cómo se testeó el proyecto
 
 ---
 
-## 🤝 Contributing
+## 🏁 Estado del Proyecto
 
-¡Contribuciones bienvenidas! Este proyecto mejora con la experiencia de la comunidad.
+**Versión final**: v1.3.0
+**Estado**: POC Exitosa - Archivada
+**Fecha de cierre**: 2026-02-12
 
-**Formas de contribuir**:
-- 🐛 Reportar bugs o información desactualizada
-- ✨ Proponer nuevos skills (Go, Rust, Java, etc.)
-- 📝 Mejorar documentación
-- 🔧 Optimizar skills existentes
-- 💡 Compartir tus mejores prácticas
-
-Lee [CONTRIBUTING.md](docs/CONTRIBUTING.md) para más detalles.
-
----
-
-## 🗺️ Roadmap
-
-Este proyecto está en **continua evolución** hasta lograr automatizar y optimizar el desarrollo como debe ser. Las contribuciones y sugerencias son muy valoradas y agradecidas.
-
-### Completado
+### ✅ Logros Completados
 - [x] Skills base (PHP, Python, TypeScript, Playwright, Bash, OpenAI) - v1.0.0
 - [x] Sistema de auto-detección - v1.0.0
 - [x] Auto-configuración con MEMORY.md - v1.0.0
@@ -407,15 +390,20 @@ Este proyecto está en **continua evolución** hasta lograr automatizar y optimi
 - [x] Skills de templates: Twig, Volt - v1.1.0
 - [x] Script de actualización automática (update.sh) - v1.2.0
 - [x] Skills LLMs y CI/CD: GitHub Actions, GitLab CI - v1.2.3
+- [x] Workflow completo: Gitflow, TDD, CI/CD - v1.3.0
 
-### En el horizonte
-- [ ] Skills adicionales: Go, Rust, Java, C#
-- [ ] Skills de frameworks: Django, NestJS, Spring
-- [ ] Skills de infraestructura: Docker, Kubernetes, Terraform
-- [ ] Web UI para gestionar skills
-- [ ] Marketplace de skills comunitarios
+**Total**: 20 skills especializados + infraestructura completa de desarrollo
 
-**💡 ¿Tienes una idea?** Abre un [issue](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues) o contribuye con un PR. ¡Toda aportación suma!
+### 🎓 Aprendizajes Clave
+
+Durante el desarrollo de este proyecto se descubrieron detalles importantes sobre Claude Code que llevaron a una evolución del concepto:
+
+- Claude Code tiene un sistema nativo de memoria en `~/.claude/projects/`
+- Los skills on-the-fly con Context7 son más eficientes que skills estáticos
+- Un super-prompt configurable es más flexible que un sistema instalable
+- La auto-configuración interactiva elimina la necesidad de instalación manual
+
+Estos descubrimientos inspiraron la evolución hacia un nuevo enfoque más simple y poderoso.
 
 ---
 
@@ -447,6 +435,10 @@ Depende de qué skills cargues. Ejemplo:
 - 1 skill pequeño: ~2-4K tokens
 - 3 skills: ~10-15K tokens
 - Solo cargas lo que necesitas por proyecto
+
+### ¿Por qué está archivado si funcionaba?
+
+El proyecto funcionó perfectamente como POC. Durante su desarrollo se descubrieron detalles sobre los internals de Claude Code que permitieron idear un enfoque más simple y poderoso. Este proyecto queda como referencia técnica y base de aprendizaje.
 
 ---
 
@@ -482,6 +474,6 @@ MIT License - ver [LICENSE](LICENSE) para detalles.
 
 ---
 
-**⭐ Si este proyecto te ayuda, considera darle una estrella en GitHub**
+**⭐ Este proyecto sirvió como POC y base de aprendizaje para proyectos futuros**
 
-¿Preguntas? Abre un [issue](https://github.com/joseguillermomoreu-gif/claude-code-auto-skills/issues) o contacta en [Twitter/X](https://twitter.com/tu-usuario)
+Código disponible como referencia técnica. No se aceptan nuevas contribuciones.
